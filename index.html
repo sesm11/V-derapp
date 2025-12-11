@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Väderapp</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="box">
+        <div class="top">
+          <h1 class="title">Väderapp</h1>
+
+          <form id="searchForm" class="search">
+            <input
+              id="cityInput"
+              type="text"
+              placeholder="Sök stad... "
+              autocomplete="off"
+            />
+            <button id="Sok" type="submit">Sök</button>
+          </form>
+
+          <div class="row">
+            <button id="position">min position</button>
+            <button id="unit">°F</button>
+          </div>
+          <p id="msg"></p>
+        </div>
+
+        <div class="main">
+          <div id="now" class="hide">
+            <p class="small">stad</p>
+            <h2 id="name">-</h2>
+            <img id="icon" src="icon/" alt="icon" />
+
+            <div class="big">
+              <span id="temp">--°C</span>
+              <span id="wind">vind --</span>
+            </div>
+            <p id="text">---</p>
+          </div>
+
+          <div id="days" class="hide">
+            <p class="small">7 dagar</p>
+            <ul id="list"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
