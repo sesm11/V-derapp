@@ -7,6 +7,7 @@ const descEl = document.getElementById("text");
 const windEl = document.getElementById("wind");
 const iconEl = document.getElementById("icon");
 const nowBox = document.getElementById("now");
+const showDaysBtn = document.getElementById("showDays");
 
 const msgEl = document.getElementById("msg");
 
@@ -104,6 +105,7 @@ function updateUI(data) {
   }
   nowBox.classList.remove("hide");
   daysBox.classList.add("hide");
+  showDaysBtn.classList.remove("hide");
 
   lastMode = "city";
 }
@@ -131,6 +133,10 @@ posBtn.addEventListener("click", function () {
     showMessage("Din webbläsare stödje inte Geolocation.");
     return;
   }
+  showDaysBtn.classList.add("hide");
+  nowBox.classList.add("hide");
+  iconEl.style.display = "none";
+
   showMessage("Hämtar din position... ");
   navigator.geolocation.getCurrentPosition(showPosWeather, () =>
     showMessage(" Kunde inte hämta position.")
@@ -192,4 +198,34 @@ function showDaily(data) {
 
     listEl.appendChild(li);
   });
+}
+
+showDaysBtn.addEventListener("click", function () {
+  showMessage("Hämtar 7-dagars prognos...");
+  getDailyForecast(nameEl.textContent);
+});
+
+async function getDailyForecast(city) {
+  const url =
+    `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(
+      city
+    )}` + `&appid=${apiKey}&units=metric&lang=sv`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    console.log("Forecast response:", data);
+
+    if (data.cod !== 200 && data.cod !== "200") {
+      showMessage("Kunde inte hitta prognos.");
+      return;
+    }
+
+    showDaily(data);
+    showMessage("");
+  } catch {
+    console.error(err);
+    showMessage("Kunde inte hitta prognos.");
+  }
 }
